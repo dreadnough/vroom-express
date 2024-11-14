@@ -200,14 +200,16 @@ function execCallback(req, res) {
   const timestamp = Math.floor(Date.now() / 1000); //eslint-disable-line
   const fileName = args.logdir + '/' + timestamp + '_' + uuid.v1() + '.json';
   try {
+    console.log("before write req to file");
     fs.writeFileSync(fileName, JSON.stringify(req.body));
+    console.log("after write req to file");
   } catch (err) {
     console.error(now() + ': ' + err);
 
     res.status(HTTP_INTERNALERROR_CODE);
     res.send({
       code: config.vroomErrorCodes.internal,
-      error: 'Internal error',
+      error: err,
     });
     return;
   }
